@@ -1,7 +1,13 @@
 #!/usr/bin/env ruby
 # encoding utf-8
 
-require File.join(File.dirname(__FILE__), 'toc_tracker.rb')
+# allow symlinking to this file
+THIS_FILE = (File.symlink?(__FILE__) ? File.readlink(__FILE__) : __FILE__)
+THIS_DIR = File.dirname(THIS_FILE)
+
+require File.join(THIS_DIR, 'toc_tracker.rb')
+require File.join(THIS_DIR, 'toc_node.rb')
+
 require 'tempfile'
 
 TOC_INDENT = 4

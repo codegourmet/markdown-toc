@@ -2,8 +2,6 @@
 # and for creating the toc structure
 #
 
-require File.join(File.dirname(__FILE__), 'toc_node.rb')
-
 class TocTracker
   def initialize
     @root = TocNode.new(nil, "root")
