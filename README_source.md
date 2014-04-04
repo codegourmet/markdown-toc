@@ -20,6 +20,9 @@ Also, any existing TOC generated with this tool will be updated.
 If `OUTFILE` is omitted, the result will be displayed.
 If `OUTFILE` equals `INFILE`, the processor will work in overwrite mode.
 
+You can also symlink this file for easier use:
+    sudo ln -s PATH_TO_THIS_REPO/markdown-toc.rb /usr/bin/markdown-toc
+
 # Example
 This file has been generated from `README_source.md`
 
