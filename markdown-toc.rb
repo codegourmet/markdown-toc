@@ -42,7 +42,7 @@ def number_chapters(content)
 
     new_node = @toc_tracker.add_node(depth, title)
     title = numbered_title(new_node)
-    anchor_link = "<a name=\"md-toc_#{node_index}\"></a"
+    anchor_link = "<a name=\"md-toc_#{node_index}\"></a>"
     node_index += 1
 
     "#{marker} #{anchor_link}#{title}"
@@ -63,7 +63,7 @@ def write_toc(content)
     "#{indentation}[#{title}](#{link})"
   end
 
-  content.gsub(/^\[TOC\]$/, toc.join("\n\n"))
+  content.gsub(/^\[TOC\]$/, toc.join("<br>\n"))
 end
 
 def numbered_title(node)
