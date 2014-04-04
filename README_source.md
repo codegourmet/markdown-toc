@@ -15,10 +15,17 @@ Also, any existing TOC generated with this tool will be updated.
 
 # Usage
 
-    ./markdown-toc.rb INFILE [OUTFILE]
+Usage: markdown-toc.rb [options] input.md [output.md]
 
-If `OUTFILE` is omitted, the result will be displayed.
-If `OUTFILE` equals `INFILE`, the processor will work in overwrite mode.
+Specific options:
+    -s, --strip                      remove generated TOC content
+    -i, --ignore-root                ignore root heading (e.g. project name)
+    -r, --replace                    replace input file
+
+Common options:
+    -h, --help                       Show this message
+
+If `OUTFILE` is omitted, the result will be printed to stdout.
 
 You can also symlink this file for easier use:
     sudo ln -s PATH_TO_THIS_REPO/markdown-toc.rb /usr/bin/markdown-toc

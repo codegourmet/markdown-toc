@@ -5,8 +5,9 @@
 THIS_FILE = (File.symlink?(__FILE__) ? File.readlink(__FILE__) : __FILE__)
 THIS_DIR = File.dirname(THIS_FILE)
 
-require File.join(THIS_DIR, 'toc_tracker.rb')
-require File.join(THIS_DIR, 'toc_node.rb')
+require File.join(THIS_DIR, 'markdown_toc/arguments_parser.rb')
+require File.join(THIS_DIR, 'markdown_toc/tracker.rb')
+require File.join(THIS_DIR, 'markdown_toc/node.rb')
 
 require 'optparse'
 require 'tempfile'
@@ -24,62 +25,33 @@ TOC_ANCHOR_PREFIX = "toc_"
 TOC_START_MARKER = "[//]: # (TOC)"
 TOC_END_MARKER = "[//]: # (/TOC)"
 
-def parse_options(args)
-  options = {}
+def main
+  options = MarkdownToc::ArgumentsParser.parse!(ARGV)
+  @toc_tracker = MarkdownToc::Tracker.new
 
-  option_parser = OptionParser.new do |parser|
-    parser.banner = "Usage: markdown-toc.rb [options] input.md [output.md]"
-    parser.separator ""
-    parser.separator "Specific options:"
+  content = File.read(options[:infile])
 
-    parser.on("-s", "--strip", "remove generated TOC content") do
-      options[:strip] = true
-    end
-
-    parser.on("-i", "--ignore-root", "ignore root heading (e.g. project name)") do
-      options[:ignore_root] = true
-    end
-
-    parser.on("-r", "--replace", "replace input file") do
-      options[:replace] = true
-    end
-
-
-    parser.separator ""
-    parser.separator "Common options:"
-
-    parser.on_tail("-h", "--help", "Show this message") do
-      puts "\n#{parser}\n"
-      exit
-    end
+  if options[:strip] == true
+    content = strip_toc_data(content)
+  else
+    content = add_toc_data(content)
   end
 
-  option_parser.parse!
-
-  if ARGV.count == 0
-    puts "\n#{option_parser}\n"
-    exit
+  if !options[:outfile].nil?
+    write_file(options[:outfile], content)
+  else
+    puts content
   end
-
-  options[:infile] = ARGV[0]
-
-  if ARGV.count == 2
-    options[:outfile] = ARGV[1]
-    if options[:replace] == true
-      raise ArgumentError.new("cannot combine '-r' option with outfile parameter")
-    end
-  end
-
-  options
 end
 
-def process_file(file_path)
-  content = File.read(file_path)
-
+def add_toc_data(content)
   content = number_chapters(content)
-  content = write_toc(content)
+  write_toc(content)
+end
 
-  content
+def strip_toc_data(content)
+  content = strip_chapters(content)
+  strip_toc(content)
 end
 
 def number_chapters(content)
@@ -91,7 +63,7 @@ def number_chapters(content)
     (.+)$                             # heading content
   /x
 
-  content = content.gsub(character_heading_regexp) do
+  content.gsub(character_heading_regexp) do
     marker =  Regexp.last_match[1]
     # skip match[2]: this is the "old" numbering
     title = Regexp.last_match[3]
@@ -105,8 +77,10 @@ def number_chapters(content)
 
     "#{marker} #{anchor_link}#{title}"
   end
+end
 
-  content
+def strip_chapters(content)
+  content.gsub(/<a\sname="#{Regexp.escape(TOC_ANCHOR_PREFIX)}\d+"><\/a>/, '')
 end
 
 def write_toc(content)
@@ -126,8 +100,13 @@ def write_toc(content)
   toc = [TOC_START_MARKER, toc, TOC_END_MARKER].join("\n")
 
   content = content.gsub(/^\[TOC\]$/, toc) # replace marker if no toc yet
-  content = content.gsub(/#{TOC_START_MARKER}.*#{TOC_END_MARKER}/, toc) # replace generated TOC
-  content
+
+  # replace generated TOC
+  content.gsub(/#{Regexp.escape(TOC_START_MARKER)}.*#{Regexp.escape(TOC_END_MARKER)}/m, toc)
+end
+
+def strip_toc(content)
+  content.gsub(/#{Regexp.escape(TOC_START_MARKER)}.*#{Regexp.escape(TOC_END_MARKER)}/m, '')
 end
 
 def numbered_title(node)
@@ -154,13 +133,4 @@ def write_file(file_path, content)
   temp_file.unlink
 end
 
-options = parse_options(ARGV)
-@toc_tracker = TocTracker.new
-
-content = process_file(options[:infile])
-
-if !options[:outfile].nil?
-  write_file(options[:outfile], content)
-else
-  puts content
-end
+main
