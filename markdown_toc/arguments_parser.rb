@@ -22,13 +22,18 @@ module MarkdownToc
             options[:strip] = true
           end
 
-          parser.on("-i", "--ignore-root", "ignore root heading (e.g. project name)") do options[:ignore_root] = true
+          parser.on("-i", "--ignore-root", "ignore root heading (e.g. project name)") do
+            options[:ignore_root] = true
           end
 
           parser.on("-r", "--replace", "replace input file") do
             options[:replace] = true
           end
 
+          parser.separator ""
+          parser.separator "Examples:"
+          parser.separator "    markdown-toc.rb -r README.md     # adds toc data"
+          parser.separator "    markdown-toc.rb -r -s README.md  # removes toc data"
 
           parser.separator ""
           parser.separator "Common options:"
@@ -51,13 +56,14 @@ module MarkdownToc
         end
 
         options[:infile] = arguments[0]
+        options[:outfile] = arguments[1]
 
-        if ARGV.count == 2
-          options[:outfile] = arguments[1]
-
-          if options[:replace] == true
+        if options[:replace] == true
+          if !options[:outfile].nil?
             raise ArgumentError.new("cannot combine '-r' option with outfile parameter")
           end
+
+          options[:outfile] = options[:infile]
         end
       end
 
