@@ -14,7 +14,8 @@ Heading manager for markdown documents.
 [7. TODO](#toc_8)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;[7.1. "strip" option](#toc_9)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;[7.2. "replace" option](#toc_10)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[7.3. tolerate inconsistent depth](#toc_11)
+&nbsp;&nbsp;&nbsp;&nbsp;[7.3. "ignore-root" option](#toc_11)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[7.4. tolerate inconsistent depth](#toc_12)
 [//]: # (/TOC)
 
 # <a name="toc_2"></a>3. What it does
@@ -51,6 +52,9 @@ Implement option to strip out TOC and all generated TOC anchor refs.
 ## <a name="toc_10"></a>7.2. "replace" option
 Implement option to replace file (already possible, but --replace flag would be nice).
 
-## <a name="toc_11"></a>7.3. tolerate inconsistent depth
+## <a name="toc_11"></a>7.3. "ignore-root" option
+Often, everything is inside <h1>ProjectName</h1>. This results in the undesirabler behaviour of every subheading being prefixed with "1."
+
+## <a name="toc_12"></a>7.4. tolerate inconsistent depth
 Be more forgiving: should allow depth jumps by more than 1.
 "####" as a child to "##" shouldn't trigger an error.
