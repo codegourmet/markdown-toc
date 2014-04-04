@@ -21,7 +21,8 @@ Heading manager for markdown documents.
 This tool will remove any numbers after the "#" heading markers and replacing them with calculated ones
 
 ## <a name="toc_4"></a>3.2. Generate a TOC
-Also, if there's a line "[TOC]" in the markdown, it will be replaced with a generated, anchor-linked TOC.
+If there's a line "[TOC]" in the markdown, it will be replaced with a generated, anchor-linked TOC.
+Also, any existing TOC generated with this tool will be updated.
 
 # <a name="toc_5"></a>4. Usage
 

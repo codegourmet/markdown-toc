@@ -10,7 +10,8 @@ Heading manager for markdown documents.
 This tool will remove any numbers after the "#" heading markers and replacing them with calculated ones
 
 ## Generate a TOC
-Also, if there's a line "[TOC]" in the markdown, it will be replaced with a generated, anchor-linked TOC.
+If there's a line "[TOC]" in the markdown, it will be replaced with a generated, anchor-linked TOC.
+Also, any existing TOC generated with this tool will be updated.
 
 # Usage
 
