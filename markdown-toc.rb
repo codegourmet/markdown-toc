@@ -31,7 +31,12 @@ end
 
 def number_chapters(content)
   node_index = 0
-  character_heading_regexp = /^(#+)\s*((?:\d\.?)*)\s*(.+)$/
+  character_heading_regexp = /
+    ^(\#+)\s*                         # heading tag
+    (?:<a\sname="md-toc_\d+"><\/a>)?  # already generated anchor
+    ((?:\d\.?)*)\s*                   # heading number
+    (.+)$                             # heading content
+  /x
 
   content = content.gsub(character_heading_regexp) do
     marker =  Regexp.last_match[1]
