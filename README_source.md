@@ -28,10 +28,6 @@ No real code documentation, no tests.
 
 # TODO
 
-## replace whole TOC chapter, not via [TOC] marker
-If there's a chapter named "Table of Contents", it's whole body should get replaced with the dynamic TOC. This
-way, the processor can be run in overwrite mode, without manually replacing the existing TOC with the [TOC] trigger tag.
-
 ## tolerate inconsistent depth
 Be more forgiving: should allow depth jumps by more than 1.
 "####" as a child to "##" shouldn't trigger an error.

@@ -2,7 +2,7 @@
 # and for creating the toc structure
 #
 
-require './toc_node.rb'
+require File.join(File.dirname(__FILE__), 'toc_node.rb')
 
 class TocTracker
   def initialize

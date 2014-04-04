@@ -1,10 +1,21 @@
 #!/usr/bin/env ruby
 # encoding utf-8
 
-require './toc_tracker.rb'
+require File.join(File.dirname(__FILE__), 'toc_tracker.rb')
 require 'tempfile'
 
 TOC_INDENT = 4
+
+# NOTE: gitlab won't allow custom html anchors. This version
+#       is compatible with the auto-generated ones (and will
+#       still work in addition to the github flavored refs).
+TOC_ANCHOR_PREFIX = "toc_"
+
+# TOC markers are (ab)using this comment style:
+# http://stackoverflow.com/a/20885980/3489294
+# These are used to be able to re-write an existing generated TOC
+TOC_START_MARKER = "[//]: # (TOC)"
+TOC_END_MARKER = "[//]: # (/TOC)"
 
 def parse_options(args)
   if ARGV.count == 0
@@ -33,7 +44,7 @@ def number_chapters(content)
   node_index = 0
   character_heading_regexp = /
     ^(\#+)\s*                         # heading tag
-    (?:<a\sname="md-toc_\d+"><\/a>)?  # already generated anchor
+    (?:<a\sname="#{TOC_ANCHOR_PREFIX}\d+"><\/a>)?  # already generated anchor
     ((?:\d\.?)*)\s*                   # heading number
     (.+)$                             # heading content
   /x
@@ -47,7 +58,7 @@ def number_chapters(content)
 
     new_node = @toc_tracker.add_node(depth, title)
     title = numbered_title(new_node)
-    anchor_link = "<a name=\"md-toc_#{node_index}\"></a>"
+    anchor_link = "<a name=\"#{anchor_name(node_index)}\"></a>"
     node_index += 1
 
     "#{marker} #{anchor_link}#{title}"
@@ -58,17 +69,23 @@ end
 
 def write_toc(content)
   nodes = @toc_tracker.get_flat_node_list[1..-1]
+
   toc = nodes.collect do |node|
     title = numbered_title(node)
 
     node_index = nodes.index(node)
-    link = "#md-toc_#{node_index}"
+    link = "##{anchor_name(node_index)}"
 
     indentation = '&nbsp;' * (TOC_INDENT * (node.depth - 1))
     "#{indentation}[#{title}](#{link})"
   end
 
-  content.gsub(/^\[TOC\]$/, toc.join("<br>\n"))
+  toc = toc.join("<br>\n")
+  toc = [TOC_START_MARKER, toc, TOC_END_MARKER].join("\n")
+
+  content = content.gsub(/^\[TOC\]$/, toc) # replace marker if no toc yet
+  content = content.gsub(/#{TOC_START_MARKER}.*#{TOC_END_MARKER}/, toc) # replace generated TOC
+  content
 end
 
 def numbered_title(node)
@@ -77,6 +94,10 @@ def numbered_title(node)
   heading_numbers = heading_numbers.join('.') + "."
 
   "#{heading_numbers} #{node.content}"
+end
+
+def anchor_name(node_index)
+  "#{TOC_ANCHOR_PREFIX}#{node_index}"
 end
 
 def write_file(file_path, content)
