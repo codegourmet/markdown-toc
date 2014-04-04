@@ -30,6 +30,7 @@ def process_file(file_path)
 end
 
 def number_chapters(content)
+  node_index = 0
   character_heading_regexp = /^(#+)\s*((?:\d\.?)*)\s*(.+)$/
 
   content = content.gsub(character_heading_regexp) do
@@ -41,8 +42,10 @@ def number_chapters(content)
 
     new_node = @toc_tracker.add_node(depth, title)
     title = numbered_title(new_node)
+    anchor_link = "<a name=\"md-toc_#{node_index}\"></a"
+    node_index += 1
 
-    "#{marker} #{title}"
+    "#{marker} #{anchor_link}#{title}"
   end
 
   content
@@ -54,13 +57,13 @@ def write_toc(content)
     title = numbered_title(node)
 
     node_index = nodes.index(node)
-    link = "#toc_#{node_index}"
+    link = "#md-toc_#{node_index}"
 
     indentation = '&nbsp;' * (TOC_INDENT * (node.depth - 1))
-    "[#{indentation}#{title}](#{link})"
+    "#{indentation}[#{title}](#{link})"
   end
 
-  content.gsub(/^\[TOC\]$/, toc.join("\n"))
+  content.gsub(/^\[TOC\]$/, toc.join("\n\n"))
 end
 
 def numbered_title(node)
