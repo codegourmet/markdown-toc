@@ -1,38 +1,38 @@
-# Markdown-TOC
+# 1. Markdown-TOC
 Heading manager for markdown documents.
 
-# Table of Contents
-[TOC] (TODO: make github flavor compatible!)
+# 2. Table of Contents
+(TODO: make github flavored markdown compatible!)
 
-# What it does
+# 3. What it does
 
-## Heading numbers
+## 3.1. Heading numbers
 This tool will remove any numbers after the "#" heading markers and replacing them with calculated ones
 
-## Generate a TOC
+## 3.2. Generate a TOC
 Also, if there's a line "[TOC]" in the markdown, it will be replaced with a generated, anchor-linked TOC.
 
-# Usage
+# 4. Usage
 
     ./markdown-toc.rb INFILE [OUTFILE]
 
 If `OUTFILE` is omitted, the result will be displayed.
 If `OUTFILE` equals `INFILE`, the processor will work in overwrite mode.
 
-## Known issues
+## 4.1. Known issues
 This is just a quick and dirty writeup, to be used as a small tool and for flexing my coding muscles.
 No real code documentation, no tests.
 
 Github: note that this tool is incompatible with github-flavored markdown.
 
 
-## TODO
+## 4.2. TODO
 
-### replace whole TOC chapter, not via [TOC] marker
+### 4.2.1. replace whole TOC chapter, not via [TOC] marker
 If there's a chapter named "Table of Contents", it's whole body should get replaced with the dynamic TOC. This
 way, the processor can be run in overwrite mode, without manually replacing the existing TOC with the [TOC] trigger tag.
 
-### Github flavored markdown
+### 4.2.2. Github flavored markdown
 Low-pri: doesn't make too much sense, since github already has a TOC rendering feature.
 Known issues with this tool:
 - linebreaks in generated TOC are missing
