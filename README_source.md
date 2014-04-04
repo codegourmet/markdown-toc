@@ -32,6 +32,12 @@ No real code documentation, no tests.
 
 # TODO
 
+## "strip" option
+Implement option to strip out TOC and all generated TOC anchor refs.
+
+## "replace" option
+Implement option to replace file (already possible, but --replace flag would be nice).
+
 ## tolerate inconsistent depth
 Be more forgiving: should allow depth jumps by more than 1.
 "####" as a child to "##" shouldn't trigger an error.
