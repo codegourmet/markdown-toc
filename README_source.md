@@ -15,7 +15,7 @@ Also, any existing TOC generated with this tool will be updated.
 
 # Usage
 
-Usage: markdown-toc.rb [options] input.md [output.md]
+    markdown-toc.rb [options] input.md [output.md]
 
 Specific options:
     -s, --strip                      remove generated TOC content
