@@ -21,7 +21,7 @@ TOC_ANCHOR_PREFIX = "toc_"
 
 # TOC markers are (ab)using this comment style:
 # http://stackoverflow.com/a/20885980/3489294
-# These are used to be able to re-write an existing generated TOC
+# These are used to be able to update and remove an existing generated TOC
 TOC_START_MARKER = "[//]: # (TOC)"
 TOC_END_MARKER = "[//]: # (/TOC)"
 

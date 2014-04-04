@@ -42,12 +42,18 @@ No real code documentation, no tests.
 ## "strip" option
 Implement option to strip out TOC and all generated TOC anchor refs.
 
-## "replace" option
-Implement option to replace file (already possible, but --replace flag would be nice).
-
 ## "ignore-root" option
 Often, everything is inside <h1>ProjectName</h1>. This results in the undesirabler behaviour of every subheading being prefixed with "1."
 
 ## tolerate inconsistent depth
 Be more forgiving: should allow depth jumps by more than 1.
 "####" as a child to "##" shouldn't trigger an error.
+
+## code documentation
+document in main file how code is organized internally
+
+## tests
+it's really not a quick hack anymore
+
+## refactor main script file
+toc handling and chapter numbers handling should become two distinct classes, called from main
