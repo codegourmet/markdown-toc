@@ -31,10 +31,10 @@ def main
 
   content = File.read(options[:infile])
 
-  if options[:strip] == true
-    content = strip_toc_data(content)
+  if options[:strip] != true
+    content = add_toc_data(content, options)
   else
-    content = add_toc_data(content)
+    content = strip_toc_data(content)
   end
 
   if !options[:outfile].nil?
@@ -44,17 +44,22 @@ def main
   end
 end
 
-def add_toc_data(content)
-  content = number_chapters(content)
+def add_toc_data(content, options)
+  content = number_chapters(content, options)
+
+  if options[:no_anchors]
+    content = strip_chapter_anchors(content)
+  end
+
   write_toc(content)
 end
 
 def strip_toc_data(content)
-  content = strip_chapters(content)
+  content = strip_chapter_anchors(content)
   strip_toc(content)
 end
 
-def number_chapters(content)
+def number_chapters(content, options)
   node_index = 0
   character_heading_regexp = /
     ^(\#+)\s*                         # heading tag
@@ -72,6 +77,7 @@ def number_chapters(content)
 
     new_node = @toc_tracker.add_node(depth, title)
     title = numbered_title(new_node)
+
     anchor_link = "<a name=\"#{anchor_name(node_index)}\"></a>"
     node_index += 1
 
@@ -79,7 +85,7 @@ def number_chapters(content)
   end
 end
 
-def strip_chapters(content)
+def strip_chapter_anchors(content)
   content.gsub(/<a\sname="#{Regexp.escape(TOC_ANCHOR_PREFIX)}\d+"><\/a>/, '')
 end
 

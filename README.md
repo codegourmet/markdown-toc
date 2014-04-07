@@ -12,12 +12,11 @@ Heading manager for markdown documents.
 [5. Example](#toc_6)<br>
 [6. Known issues](#toc_7)<br>
 [7. TODO](#toc_8)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[7.1. "strip" option](#toc_9)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[7.2. "ignore-root" option](#toc_10)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[7.3. tolerate inconsistent depth](#toc_11)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[7.4. code documentation](#toc_12)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[7.5. tests](#toc_13)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[7.6. refactor main script file](#toc_14)
+&nbsp;&nbsp;&nbsp;&nbsp;[7.1. "ignore-root" option](#toc_9)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[7.2. tolerate inconsistent depth](#toc_10)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[7.3. code documentation](#toc_11)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[7.4. tests](#toc_12)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[7.5. refactor main script file](#toc_13)
 [//]: # (/TOC)
 
 # <a name="toc_2"></a>3. What it does
@@ -35,7 +34,7 @@ Also, any existing TOC generated with this tool will be updated.
 
 Specific options:
     -s, --strip                      remove generated TOC content
-    -i, --ignore-root                ignore root heading (e.g. project name)
+    -a, --no-anchors                 e.g. gitlab mode: no hrefs for chapters
     -r, --replace                    replace input file
 
 Common options:
@@ -55,21 +54,18 @@ No real code documentation, no tests.
 
 # <a name="toc_8"></a>7. TODO
 
-## <a name="toc_9"></a>7.1. "strip" option
-Implement option to strip out TOC and all generated TOC anchor refs.
-
-## <a name="toc_10"></a>7.2. "ignore-root" option
+## <a name="toc_9"></a>7.1. "ignore-root" option
 Often, everything is inside <h1>ProjectName</h1>. This results in the undesirabler behaviour of every subheading being prefixed with "1."
 
-## <a name="toc_11"></a>7.3. tolerate inconsistent depth
+## <a name="toc_10"></a>7.2. tolerate inconsistent depth
 Be more forgiving: should allow depth jumps by more than 1.
 "####" as a child to "##" shouldn't trigger an error.
 
-## <a name="toc_12"></a>7.4. code documentation
+## <a name="toc_11"></a>7.3. code documentation
 document in main file how code is organized internally
 
-## <a name="toc_13"></a>7.5. tests
+## <a name="toc_12"></a>7.4. tests
 it's really not a quick hack anymore
 
-## <a name="toc_14"></a>7.6. refactor main script file
+## <a name="toc_13"></a>7.5. refactor main script file
 toc handling and chapter numbers handling should become two distinct classes, called from main

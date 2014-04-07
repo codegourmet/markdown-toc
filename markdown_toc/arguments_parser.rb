@@ -22,8 +22,13 @@ module MarkdownToc
             options[:strip] = true
           end
 
-          parser.on("-i", "--ignore-root", "ignore root heading (e.g. project name)") do
-            options[:ignore_root] = true
+          # NYI
+          #parser.on("-i", "--ignore-root", "ignore root heading (e.g. project name)") do
+          #  options[:ignore_root] = true
+          #end
+
+          parser.on("-a", "--no-anchors", "e.g. gitlab mode: no hrefs for chapters") do
+            options[:no_anchors] = true
           end
 
           parser.on("-r", "--replace", "replace input file") do

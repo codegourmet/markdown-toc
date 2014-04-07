@@ -19,7 +19,7 @@ Also, any existing TOC generated with this tool will be updated.
 
 Specific options:
     -s, --strip                      remove generated TOC content
-    -i, --ignore-root                ignore root heading (e.g. project name)
+    -a, --no-anchors                 e.g. gitlab mode: no hrefs for chapters
     -r, --replace                    replace input file
 
 Common options:
@@ -38,9 +38,6 @@ This is just a quick and dirty writeup, to be used as a small tool and for flexi
 No real code documentation, no tests.
 
 # TODO
-
-## "strip" option
-Implement option to strip out TOC and all generated TOC anchor refs.
 
 ## "ignore-root" option
 Often, everything is inside <h1>ProjectName</h1>. This results in the undesirabler behaviour of every subheading being prefixed with "1."
