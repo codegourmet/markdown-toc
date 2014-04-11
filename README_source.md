@@ -39,8 +39,12 @@ No real code documentation, no tests.
 
 # TODO
 
+## `&nbsp;` hack
+I couldn't get nested lists with depth > 2 to work with all markdown flavors (github, gitlub, markdown1).
+The only way to enforce the indentation was to hardcode multiple `&nbsp;`s. I might want to give this another try, because the way it's done now seems a bit WTF-y to me.
+
 ## "ignore-root" option
-Often, everything is inside <h1>ProjectName</h1>. This results in the undesirabler behaviour of every subheading being prefixed with "1."
+Often, everything is inside `<h1>ProjectName</h1>`. This results in the undesirable behaviour of every subheading being prefixed with "1."
 
 ## tolerate inconsistent depth
 Be more forgiving: should allow depth jumps by more than 1.
