@@ -7,6 +7,12 @@ module MarkdownToc
       parser = self.parse_options!(arguments, options)
       parse_file_arguments!(arguments, options, parser)
 
+      if options[:gitlab_mode]
+        options[:no_anchors] = true
+        options[:text_only] = true
+        options[:no_marker] = true
+      end
+
       options
     end
 
@@ -29,6 +35,22 @@ module MarkdownToc
 
           parser.on("-a", "--no-anchors", "e.g. gitlab mode: no hrefs for chapters") do
             options[:no_anchors] = true
+          end
+
+          parser.on("-t", "--text-only", "pure text mode TOC (no hrefs for TOC)") do
+            options[:text_only] = true
+          end
+
+          parser.on("-p", "--plain", "plain mode, no html indentation hack for TOC") do
+            options[:plain] = true
+          end
+
+          parser.on("-m", "--no-marker", " no TOC marker (NOTE: will make -s feature impossible)") do
+            options[:no_marker] = true
+          end
+
+          parser.on("-g", "--gitlab-mode", "all necessary settings + more hacks for gitlab mode (NOTE: will make -s feature impossible)") do
+            options[:gitlab_mode] = true
           end
 
           parser.on("-r", "--replace", "replace input file") do

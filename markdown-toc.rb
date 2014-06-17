@@ -51,7 +51,7 @@ def add_toc_data(content, options)
     content = strip_chapter_anchors(content)
   end
 
-  write_toc(content)
+  write_toc(content, options)
 end
 
 def strip_toc_data(content)
@@ -89,7 +89,7 @@ def strip_chapter_anchors(content)
   content.gsub(/<a\sname="#{Regexp.escape(TOC_ANCHOR_PREFIX)}\d+"><\/a>/, '')
 end
 
-def write_toc(content)
+def write_toc(content, options)
   nodes = @toc_tracker.get_flat_node_list[1..-1]
 
   toc = nodes.collect do |node|
@@ -98,12 +98,30 @@ def write_toc(content)
     node_index = nodes.index(node)
     link = "##{anchor_name(node_index)}"
 
-    indentation = '&nbsp;' * (TOC_INDENT * (node.depth - 1))
-    "#{indentation}[#{title}](#{link})"
+    num_indent = (TOC_INDENT * (node.depth - 1))
+    indent_char = options[:plain] ? ' ' : '&nbsp;'
+    indentation = indent_char * num_indent
+
+    result = "#{indentation}"
+
+    if options[:text_only]
+      result += title
+    else
+      result += "[#{title}](#{link})"
+    end
+
+    result
   end
 
-  toc = toc.join("<br>\n")
-  toc = [TOC_START_MARKER, toc, TOC_END_MARKER].join("\n")
+  linebreak_char = options[:plain] ? "\n" : "<br>\n"
+  if options[:gitlab_mode]
+    linebreak_char += "\n"
+  end
+  toc = toc.join(linebreak_char)
+
+  if !options[:no_marker]
+    toc = [TOC_START_MARKER, toc, TOC_END_MARKER].join("\n")
+  end
 
   content = content.gsub(/^\[TOC\]$/, toc) # replace marker if no toc yet
 
